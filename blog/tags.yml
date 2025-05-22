@@ -1,19 +1,24 @@
-facebook:
-  label: Facebook
-  permalink: /facebook
-  description: Facebook tag description
+kubernetes:
+  label: Kubernetes
+  permalink: /kubernetes
+  description: Container orchestration and automation with Kubernetes.
 
-hello:
-  label: Hello
-  permalink: /hello
-  description: Hello tag description
+rosa:
+  label: ROSA
+  permalink: /rosa
+  description: Red Hat OpenShift Service on AWS (ROSA) for managed Kubernetes in the cloud.
 
-docusaurus:
-  label: Docusaurus
-  permalink: /docusaurus
-  description: Docusaurus tag description
+eso:
+  label: External Secrets Operator
+  permalink: /eso
+  description: Securely manage Kubernetes secrets using External Secrets Operator (ESO) and cloud secret stores.
 
-hola:
-  label: Hola
-  permalink: /hola
-  description: Hola tag description
+secrets:
+  label: Secrets
+  permalink: /secrets
+  description: Best practices for managing, rotating, and integrating secrets in cloud-native systems.
+
+blog:
+  label: Blog
+  permalink: /blog
+  description: Articles, tutorials, and insights on Kubernetes, GitOps, and cloud migration.
