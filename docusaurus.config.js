@@ -127,10 +127,6 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
-              },
-              {
                 label: 'Gunpla',
                 href: 'https://zeonzeoff.com',
               },
