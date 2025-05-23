@@ -655,6 +655,10 @@ Run `ls` to see your Linux system files and directories.
 
 You use `arch-chroot /mnt` to "change root" into your new system’s environment. This lets you run commands as if you had booted into the installed Arch Linux. Before `arch-chroot /mnt`, your root `/` was the live install environment’s root — basically the running Arch ISO system in memory. After chroot, the root switches to your new installed system at `/mnt`.
 
+## WIP
+
+More coming soon.
+
 <!-- ## System Configuration
 
 ### **Set Time Zone**
