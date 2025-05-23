@@ -5,7 +5,7 @@ tags: [ linux, arch ]
 sidebar_position: 2
 ---
 
-[Get right to the guide](booting-into-the-arch-linux-installation-medium)
+[Get right to the guide](#booting-into-the-arch-linux-installation-medium)
 
 ## Why another guide?
 
