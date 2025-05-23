@@ -1,6 +1,6 @@
 ---
-slug: arch-guided-install-lvm-on-luks
-title:  "Arch Guided Install: LVM on LUKS"
+slug: arch-guided-install
+title:  "Arch Guided Install"
 tags: [ linux, arch ]
 sidebar_position: 2
 ---

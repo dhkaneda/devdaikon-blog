@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# 🏗️ Homelab (Under Construction)
+# 🏗️ Homelab
 
 Welcome to my Homelab—a digital playground where enterprise tools meet curiosity.
 
