@@ -101,8 +101,8 @@ const config = {
             title: 'Homelab',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: 'Homelab',
+                to: '/docs/homelab',
               },
             ],
           },
