@@ -625,7 +625,7 @@ The Arch live install medium includes a wide array of preinstalled tools that ma
 
 ### Generate Filesystem Table
 
-Now that our partitions are mounted and the base system is installed, we need to ensure those same partitions are automatically mounted every time the system boots. The fstab (file system table) handles this. By generating an fstab file, we’re telling the system what to mount, where to mount it, and how. The -U flag uses UUIDs (Universally Unique Identifiers) for reliability across hardware changes, and we append this info to /mnt/etc/fstab so it’s picked up during the next boot.
+Now that our partitions are mounted and the base system is installed, we need to ensure those same partitions are automatically mounted every time the system boots. The `fstab` (file system table) handles this. By generating an fstab file, we’re telling the system what to mount, where to mount it, and how. The `-U` flag uses UUIDs (Universally Unique Identifiers) for reliability across hardware changes, and we append this info to `/mnt/etc/fstab` so it’s picked up during the next boot.
 
 Generate an `fstab` file to automatically mount partitions on boot:
 
@@ -655,22 +655,24 @@ Run `ls` to see your Linux system files and directories.
 
 You use `arch-chroot /mnt` to "change root" into your new system’s environment. This lets you run commands as if you had booted into the installed Arch Linux. Before `arch-chroot /mnt`, your root `/` was the live install environment’s root — basically the running Arch ISO system in memory. After chroot, the root switches to your new installed system at `/mnt`.
 
-## WIP
+## System Configuration
 
-More coming soon.
-
-<!-- ## System Configuration
-
-### **Set Time Zone**
+### Set Time Zone
 
 ```bash
 ln -sf /usr/share/zoneinfo/US/Pacific /etc/localtime
 ```
 
-### **Sync Hardware Clock**
+### Sync Hardware Clock
 
 ```bash
 hwclock --systohc
+```
+
+### Set Keymap
+
+```bash
+echo "KEYMAP=en" > /etc/vconsole.conf
 ```
 
 ### Configure Locale
@@ -701,11 +703,74 @@ echo "myhostname" > /etc/hostname
 passwd
 ```
 
----
+## Configuring mkinitcpio
+
+initramfs (initial RAM filesystem) is a temporary root filesystem loaded into memory by the bootloader before the real root filesystem is available.
+
+You must configure mkinitcpio to ensure the initramfs includes the necessary modules, hooks, and binaries for your system to boot properly. This is especially important when:
+
+- Using encrypted disks (e.g., LUKS)
+
+- Having a custom root filesystem (e.g., on LVM, btrfs, or ZFS)
+
+- Requiring early hardware drivers (e.g., for RAID, NVMe, or specific filesystems)
+
+Without proper configuration, your system may fail to mount the root filesystem and won't boot.
+
+We're going with a systemd-based initramfs, add the `keyboard`, `sd-encrypt` and `lvm2` hooks.
+
+```bash
+vim /etc/mkinitcpio.conf
+```
+
+Line 55 is most similar to the hooks set up we need. It should look like:
+
+```text
+HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt lvm2 filesystems fsck)
+```
+
+Make sure there is only one line of HOOKS uncommented.
+
+Run the following command to (re-)generate initramfs images based on all existing presets:
+
+```bash
+mkinitcpio -P
+```
+
+You may get warnings for missing firmware. These can be fixed later.
+
+<details>
+<summary>mkinitcpio hooks explained</summary>
+
+Your LVM on LUKS setup requires that specific `HOOKS` sequence in `mkinitcpio.conf` to correctly unlock the encrypted drive, activate LVM, and mount your root filesystem during early boot. Here's why each hook matters in your context:
+
+1. **`base`** – Essential binaries and libraries for early userspace.
+2. **`systemd`** – Replaces traditional init, needed if you're using a `systemd`-based initramfs (common on modern systems).
+3. **`autodetect`** – Optimizes the initramfs for your current hardware (safe to include, but optional for portability).
+4. **`microcode`** – Loads CPU microcode updates early for stability and security.
+5. **`modconf`** – Loads kernel module configuration files.
+6. **`kms`** – Loads graphics drivers early, helps avoid resolution flickering.
+7. **`keyboard`** – Ensures keyboard input is available at the password prompt for unlocking LUKS.
+8. **`sd-vconsole`** – Sets up console font and keymap (for a readable and correctly mapped early shell).
+9. **`block`** – Detects block devices (like disks), required for both LUKS and LVM.
+10. **`sd-encrypt`** – Handles unlocking LUKS volumes using systemd's infrastructure (works with `systemd` hook).
+11. **`lvm2`** – Activates LVM volumes after decryption so the root volume can be found.
+12. **`filesystems`** – Loads necessary filesystem drivers (e.g., ext4, btrfs).
+13. **`fsck`** – Runs filesystem checks on boot.
+
+⚠️ If `sd-encrypt` is used (instead of `encrypt`), then `systemd`-style hooks must also be used (`systemd`, `sd-vconsole`) and your boot loader must pass the correct kernel parameters (like `rd.luks.name=` and `rd.lvm.lv=`). Traditional `encrypt` and `lvm2` work with non-systemd init setups.
+
+In summary: this specific hook order ensures your system can **unlock encryption**, **activate LVM**, and **mount the root filesystem** with systemd's initramfs tooling.
+
+</details>
 
 ## Install and Configure GRUB
 
+Configuring a bootloader like GRUB is essential for a successful Linux boot process. GRUB is responsible for locating and loading the Linux kernel and initramfs, and for passing critical kernel parameters—especially in setups involving encryption or logical volumes (e.g., LVM on LUKS). It also enables multi-boot management, allowing users to select from different operating systems or kernel versions at startup. Additionally, GRUB provides options for fallback and recovery, making it a vital component for both system stability and flexibility.
+
 ### Install GRUB and Boot Manager
+
+If you did not install these packages during the `pacstrap` step, install them now.
 
 ```bash
 pacman -S grub efibootmgr
@@ -717,15 +782,69 @@ pacman -S grub efibootmgr
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 ```
 
+### Configuring the boot loader
+
+In order to unlock the encrypted root partition at boot, the following kernel parameters need to be set by the boot loader:
+
+```text
+rd.luks.name=device-UUID=cryptlvm root=/dev/MyVolGroup/root
+```
+
+The device-UUID refers to the UUID of the LUKS superblock, in this example it is the UUID of `/dev/sda2`.
+
+This step can easily be messed up so do it carefully. The UUID of your encrypted container can be found with `lsblk -f`
+
+```bash
+[root@archiso /]# lsblk -f
+NAME            FSTYPE      FSVER            LABEL       UUID                                   FSAVAIL FSUSE% MOUNTPOINTS
+loop0           squashfs    4.0                                                                                
+sda                                                                                                            
+├─sda1          vfat        FAT32                        6E2C-2900                               838.1M    18% /boot
+└─sda2          crypto_LUKS 2                            24041545-49e8-4d53-9446-c16d85f98c55                  
+  └─cryptlvm    LVM2_member LVM2 001                     JLFowO-QfKY-wu9q-KESj-cr7T-QNFX-qMF7V7                
+    ├─rx78-swap swap        1                            4bf38e17-4662-4b7f-8138-443b0350e9ab                  [SWAP]
+    ├─rx78-root ext4        1.0                          613a863d-826b-417c-a1fc-18567ec78d2b     27.1G     8% /
+    └─rx78-home ext4        1.0                          e2d2f384-d503-49cf-992d-a69551cc558f    409.7G     0% /home
+sdb                                                                                                            
+├─sdb1          exfat       1.0              Ventoy      4E21-0000                                             
+│ ├─ventoy      iso9660     Joliet Extension ARCH_202502 2025-02-01-08-29-13-00                                
+│ └─sdb1        exfat       1.0              Ventoy      4E21-0000                                             
+└─sdb2          vfat        FAT16            VTOYEFI     626B-4255   
+```
+
+For this example, the device UUID is for `/dev/sda2`, `24041545-49e8-4d53-9446-c16d85f98c55`
+
+Edit the GRUB configuration file manually:
+
+```bash
+vim /etc/default/grub 
+```
+
+Update the following line using the UUID of your LUKS superblock:
+
+```text
+GRUB_CMDLINE_LINUX="rd.luks.name=24041545-49e8-4d53-9446-c16d85f98c55=cryptlvm root=/dev/rx78/root"
+```
+
+Hide the GRUB boot menu:
+
+```text
+GRUB_TIMEOUT=0
+```
+
+```text
+GRUB_TIMEOUT_STYLE=hidden
+```
+
 ### Generate GRUB Configuration
 
 ```bash
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
----
-
 ## Final Steps
+
+By this point, you should have much of your set up completed. After rebooting, there may be some additional set up steps like user and network configuration. Reboot to test your installation. If it fails, you may have missed something in regards to the unlocking and mounting of your partitions. If you must, reboot into the Arch install medium and retrace your steps.
 
 1. Exit chroot:
 
@@ -745,6 +864,153 @@ grub-mkconfig -o /boot/grub/grub.cfg
     reboot
     ```
 
+Don't forget to remove your installation USB drive upon shutdown to test your system if it is still configured to boot into USB first.
+
 ## Next Steps
 
-### Network Configuration -->
+[Why is it bad to log in as root?](https://askubuntu.com/questions/16178/why-is-it-bad-to-log-in-as-root?__cf_chl_tk=lfWWUCGQerm2oU3IzDSe6GvazWBys4o0k9neDhnWxAs-1748144335-1.0.1.1-eVHIaFfZFGh4Wvi1g0vdTe_MWYq4B2vvT8j8yQF4yWU)
+
+[What's the point in making a non-root user on my home computer?](https://www.reddit.com/r/linuxquestions/comments/1f9f2mc/whats_the_point_on_making_a_non_root_user_on_my/)
+
+To create a non-root user with wheel (sudo) access on a Linux system (e.g., Arch-based), run the following commands as root:
+
+ Replace 'username' with your desired username
+
+```bash
+useradd -m -G wheel -s /bin/bash username
+```
+
+Set the user’s password
+
+```bash
+passwd username
+```
+
+Then, enable sudo access for the wheel group by editing the sudoers file:
+
+```bash
+EDITOR=vim visudo
+```
+
+Uncomment this line:
+
+```text
+%wheel ALL=(ALL:ALL) ALL
+```
+
+### Network Configuration
+
+Once your minimal Linux installation is complete, you’ll need to configure the network to ensure your system can access the internet, resolve domain names, and accept SSH connections. This is especially important in headless or remote setups, such as cluster nodes in a homelab environment. The steps below guide you through configuring a basic DHCP network interface, setting up DNS, enabling essential services, and verifying connectivity.
+
+`systemd-networkd` is a system service that manages network interfaces—assigning IP addresses, handling DHCP, static configs, VLANs, bridges, etc. It replaces tools like ifconfig or NetworkManager for low-level interface configuration.
+
+`systemd-resolved` is a service for DNS resolution. It handles resolving domain names to IP addresses and supports DNS-over-TLS, caching, and integration with systemd's nss-resolve.
+
+- `networkd` = configures interfaces
+
+- `resolved` = handles DNS
+
+Create the following file: `/etc/systemd/networkd/20-wired.network` with contents:
+
+```text
+[Match]
+Name=eno1
+
+[Network]
+DHCP=yes
+```
+
+Then edit the `resolved` config file:
+
+```bash
+vim /etc/resolv.conf
+```
+
+Add or replace contents with:
+
+```text
+nameserver 1.1.1.1
+nameserver 8.8.8.8
+```
+
+Start the services and allow them to automatically start on boot, too.
+
+```bash
+sudo systemctl enable --now systemd-networkd
+sudo systemctl enable --now systemd-resolved
+sudo systemctl enable --now sshd
+```
+
+Verify internet access:
+
+```bash
+ping google.com
+```
+
+Attempt to SSH from another machine.
+
+### Update package mirror lists
+
+After configuring your network and gaining internet access, it's a good idea to update your system’s package mirrors to ensure fast and reliable downloads. The reflector utility helps you fetch the most up-to-date and fastest Arch Linux mirror servers based on various criteria like speed, age, or country.
+
+Update package mirrors with reflector
+
+```bash
+sudo pacman -S reflector
+```
+
+```bash
+sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
+```
+
+## Install `yay`
+
+Install yay, to gain access to packages on the Arch User Repository
+
+https://github.com/Jguer/yay
+
+If you did not install these packages during the `pacstrap` step, do so now:
+
+```bash
+sudo pacman -S --needed git base-devel
+```
+
+Then clone the source code for yay, build, and install it.
+
+```bash
+git clone https://aur.archlinux.org/yay.git && cd yay && makepkg -si
+```
+
+## Fix firmware warnings for mkinitcpio
+
+```bash
+yay -S mkinitcpio-firmware
+```
+
+Fix missing xhci_pci_renesas firmware warning with a dummy file:
+
+```bash
+sudo touch /usr/lib/firmware/renesas_usb_fw.mem
+```
+
+Regenerate initramfs. There shouldn't be any remaining warnings.
+
+```bash
+sudo mkinitcpio -P
+```
+
+## Install Neofetch
+
+```bash
+yay -S neofetch
+```
+
+## Wrapping up
+
+Congrats! You're done! .... kinda.
+
+That was a LOT of steps. As is, the system is set up with network connectivity, a non-root user, and access to the AUR for more packages! I've typically stopped here and registered my system to an Ansible inventory for the rest of my configuration. At this time, I've only set installed Arch this way to as nodes for my `k3s` cluster. If this guide helped, fantastic! Good luck with your Arch install. You can upgrade packages and keep up with the rolling releases with the following command:
+
+```bash
+sudo pacman -Syyu
+```
