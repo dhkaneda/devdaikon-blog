@@ -77,7 +77,7 @@ Host node-3
 
 ### Auto-load SSH key on login
 
-Add this to your `~/.zshrc` (or `~/.bashrc` if using bash):
+Add this to your `~/.zshrc` (or `~/.bashrc` if using bash) - make sure to replace the key name with your own if it differs:
 
 ```bash
 # Start SSH Agent, add key
