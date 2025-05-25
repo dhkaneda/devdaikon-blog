@@ -5,8 +5,6 @@ tags: [ ssh ]
 sidebar_position: 3
 ---
 
-## 🔐 SSH Passwordless Login Setup (Cookbook Style)
-
 Passwordless SSH makes it easy to automate tasks and run tools like Ansible without being prompted for passwords. This guide walks you through generating SSH keys, distributing them, and setting up your environment for seamless, secure access.
 
 ### Requirements
@@ -33,7 +31,7 @@ ssh-keygen -t ed25519 -f ~/.ssh/homelab
 
 > Hit Enter when prompted for a passphrase (or add one for security).
 
-### 📤 Copy your public key to each remote host
+### Copy your public key to each remote host
 
 ```bash
 ssh-copy-id -i ~/.ssh/homelab.pub username@10.0.0.2
@@ -43,7 +41,7 @@ ssh-copy-id -i ~/.ssh/homelab.pub username@10.0.0.4
 
 > Replace `user@IP` with the correct user and IP of each node.
 
-### 🧾 Configure your SSH client
+### Configure your SSH client
 
 Create or edit `~/.ssh/config`:
 
@@ -77,7 +75,7 @@ Host node-3
 
 > Now you can run `ssh node-1` instead of `ssh username@10.0.0.2`.
 
-### 🔁 Auto-load SSH key on login
+### Auto-load SSH key on login
 
 Add this to your `~/.zshrc` (or `~/.bashrc` if using bash):
 
@@ -95,7 +93,7 @@ Then reload your shell:
 source ~/.zshrc
 ```
 
-### ✅ Test it out
+### Test it out
 
 ```bash
 ssh node-1
