@@ -88,7 +88,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://gitlab.com/dhkaneda',
+            href: 'https://gitlab.com/users/dhkaneda/projects',
             label: 'GitLab',
             position: 'right',
           },
