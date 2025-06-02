@@ -16,15 +16,15 @@ Check back soon for posts on:
 
 ## Hardware
 
-| Name            |Role                 | OS              | Device                                 | Price      | Vendor           | Processor        | RAM    | Storage    |
-|-----------------|---------------------|-----------------|----------------------------------------|------------|------------------|------------------|--------|------------|
-|zakuii           | Spare               | Kali Linux      | **Lenovo ThinkPad X250**               | $80        | Craigslist       | Intel i5-5300U   | 8 GB   | 256 GB SSD |
-|newtype-1        | Daily Driver        | Manjaro         | **Lenovo ThinkPad T480**               | $80        | eBay             | Intel i5-8350U   | 32 GB  | 512 GB SSD |
-|rx78, mkii, zeta | Kubernetes node     | Arch Linux, K3s | **HP EliteDesk 800 G2** (3x)           | $70 ($210) | eBay             | Intel i5-6500T   | 16 GB  | 512 GB SSD |
-|anaheim          | NAS                 | Trunas Scale    | **HP Z2 Gen 4 SFF**                    | $160       | Facebook         | Intel i3-8100    | 16 GB  | 512 GB SSD, 4 TB HDD |
-|minovsky         | Managed Switch      | RouterOS        | **Mikrotik CR310-8G+2S+IN**            | $200       | Amazon           | 98DX226S         | 256 MB | 32 MB      |
-|zz               | GPU Rig             | Windows 10 Pro  | **Custom Built** Details below         | $810       | Newegg           | AMD Ryzen 5 5500 | 16 GB  | 2 TB SSD   |
-||Total Cost:||| $1540 |||||
+| Name            |Role              | OS              | Device                           | Processor        | RAM    | Storage              | Vendor      | Cost       |
+|-----------------|------------------|-----------------|----------------------------------|------------------|--------|----------------------|-------------|------------|
+|zakuii           | Spare            | Kali Linux      | **Lenovo ThinkPad X250**         | Intel i5-5300U   | 8 GB   | 256 GB SSD           | Craigslist  | $80        |
+|newtype-1        | Daily Driver     | Manjaro         | **Lenovo ThinkPad T480**         | Intel i5-8350U   | 32 GB  | 512 GB SSD           | eBay        | $80        |
+|rx78, mkii, zeta | Kubernetes node  | Arch Linux, K3s | **HP EliteDesk 800 G2** (3x)     | Intel i5-6500T   | 16 GB  | 512 GB SSD           | eBay        | $70 ($210) |
+|anaheim          | NAS              | Trunas Scale    | **HP Z2 Gen 4 SFF**              | Intel i3-8100    | 16 GB  | 512 GB SSD, 4 TB HDD | Facebook    | $160       |
+|minovsky         | Managed Switch   | RouterOS        | **Mikrotik CR310-8G+2S+IN**      | 98DX226S         | 256 MB | 32 MB                | Amazon      | $200       |
+|zz               | GPU Rig          | Windows 10 Pro  | **Custom Built** Details below   | AMD Ryzen 5 5500 | 16 GB  | 2 TB SSD             | Newegg      | $810       |
+||||||||Total Cost:|$1540|
 
 ### GPU Rig
 
