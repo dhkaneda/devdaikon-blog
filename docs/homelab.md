@@ -6,7 +6,7 @@ sidebar_position: 1
 
 Welcome to my Homelab—a digital playground where enterprise tools meet curiosity.
 
-This section is currently under construction as I document my journey building a self-hosted environment for experimentation, learning, and digital self-sufficiency. From Kubernetes clusters to secrets management, network design to monitoring stacks, this is where I test, break, and rebuild it all.
+This section is currently under construction as I document my journey building a self-hosted environment for experimentation, learning, and digital self-sufficiency. From Kubernetes clusters to secrets management, network design to monitoring stacks, this is where I test, break, and rebuild it all. I am currently managing a Kubernetes cluster here: [GitHub k3s-ansible](https://github.com/dhkaneda/k3s-ansible).
 
 Check back soon for posts on:
 
