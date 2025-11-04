@@ -4,9 +4,11 @@ sidebar_position: 1
 
 # 🏗️ Homelab
 
-Welcome to my Homelab—a digital playground where enterprise tools meet curiosity.
+Welcome to my homelab. I'll likely overengineer solutions at home for sake of practice and learning tools I encounter in a professional settings.
 
-This section is currently under construction as I document my journey building a self-hosted environment for experimentation, learning, and digital self-sufficiency. From Kubernetes clusters to secrets management, network design to monitoring stacks, this is where I test, break, and rebuild it all. I am currently managing a Kubernetes cluster here: [GitHub k3s-ansible](https://github.com/dhkaneda/k3s-ansible).
+This section is currently under construction (and it will probably stay this way for a long time) as I document my journey building a self-hosted environment for experimentation, learning, and digital self-sufficiency. From Kubernetes clusters to secrets management, network design to monitoring stacks, this is where I test, break, and rebuild it all.
+
+I am currently managing a Kubernetes cluster here: [GitHub k3s-ansible](https://github.com/dhkaneda/k3s-ansible).
 
 Check back soon for posts on:
 
