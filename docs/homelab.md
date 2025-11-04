@@ -24,7 +24,7 @@ Check back soon for posts on:
 |newtype-1        | Daily Driver     | Manjaro         | **Lenovo ThinkPad T480**         | Intel i5-8350U   | 32 GB  | 512 GB SSD           | eBay        | $80        |
 |rx78, mkii, zeta | Kubernetes node  | Arch Linux, K3s | **HP EliteDesk 800 G2** (3x)     | Intel i5-6500T   | 16 GB  | 512 GB SSD           | eBay        | $70 ($210) |
 |anaheim          | NAS              | Trunas Scale    | **HP Z2 Gen 4 SFF**              | Intel i3-8100    | 16 GB  | 512 GB SSD, 4 TB HDD | Facebook    | $160       |
-|minovsky         | Managed Switch   | RouterOS        | **Mikrotik CR310-8G+2S+IN**      | 98DX226S         | 256 MB | 32 MB                | Amazon      | $200       |
+|minovsky         | Managed Switch   | RouterOS        | **Mikrotik CRS310-8G+2S+IN**      | 98DX226S         | 256 MB | 32 MB                | Amazon      | $200       |
 |zz               | GPU Rig          | Windows 10 Pro  | **Custom Built** Details below   | AMD Ryzen 5 5500 | 16 GB  | 2 TB SSD             | Newegg      | $810       |
 ||||||||Total Cost:|$1540|
 
