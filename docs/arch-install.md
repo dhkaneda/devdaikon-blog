@@ -9,21 +9,13 @@ sidebar_position: 2
 
 ## Why another guide?
 
-At first, I didn’t think I needed a personal guide—after all, the Arch Wiki is famously well-written, and I’ve grown comfortable navigating it after installing Arch many times over the years. But with each installation, I learned something new. Sometimes that knowledge came from making mistakes and troubleshooting. Other times, it came from discovering better configurations, new packages, or improved security practices.
+The Arch Wiki is famously well-written, and I’ve grown comfortable navigating it after installing Arch many times over the years. But with each installation, I learned something new. Most times that came from making mistakes and troubleshooting. Other times, it came from discovering better configurations, new packages, or improved security practices.
 
-This guide is a culmination of those lessons: what I installed, why I chose it, in what order, and with what configuration. If it helps you—great! But primarily, it serves as a reference for my future self to save time and avoid past pitfalls.
-
-Let’s be honest: installing Arch Linux is often described as a “pilgrimage”—and I agree. The process is intentionally difficult because it forces you to learn what’s going on under the hood. But the learning curve can be steep, and many users bounce off because of it. That’s okay. There are countless excellent guides out there, both written and on YouTube.
-
-Still, I believe beginners can benefit from annotated, opinionated guides like this one. You might not grasp everything right away, and that’s fine. Like me, you may go through several installs over the years. And eventually, it’ll all click. Until then, every attempt is part of the process.
-
-If your goal is to really learn Linux, I still recommend using the Arch Wiki as your primary source. But don’t install Arch as your only daily driver—at least not at first. Use a second machine or keep a backup OS ready. Take your time. Block off a week if you need to.
-
-I created this guide to consolidate scattered notes, commands, and docs into one place tailored to my setup. I suggest you do the same. Everyone’s Arch install is different—and that’s the beauty of it.
+This guide is a culmination of those lessons: what I installed, why I chose it, in what order, and with what configuration. Installing Arch Linux is often described as a “pilgrimage”—and I agree. The process forced me to learn what’s going on under the hood. Or at least enough to hook things up. Primarily, this guide serves as a reference for my future self to save time and avoid past pitfalls.
 
 ## LVM on LUKS
 
-I am particularly interested in using **LVM on LUKS** for my Arch Linux installation. This allows me to encrypt my entire disk while also providing the flexibility of logical volume management. I'd like to practice system configurations similar to what I may see in enterprise settings and was made aware the importance of encryption and flexibility by devs like [Mischa van den Burg](https://www.youtube.com/watch?v=qboMuv9vSpQ). I was also recently made aware of other filesystem options like **Btrfs** and **ZFS**, and I am also very interested in using those in the future. At this time, my focus is on working with Kubernetes and need to get up and running as quickly as possible. I'll be revisiting this guide in the future to explore those options.
+I am particularly interested in using **LVM on LUKS** for my Arch Linux installation. This allows me to encrypt my entire disk while also providing the flexibility of logical volume management. I was also recently made aware of other filesystem options like **Btrfs** and **ZFS**, and I am also very interested in using those in the future. At this time, my focus is on working with Kubernetes and need to get up and running as quickly as possible. I'll be revisiting this guide in the future to explore those options.
 
 ---
 
@@ -1007,9 +999,7 @@ yay -S neofetch
 
 ## Wrapping up
 
-Congrats! You're done! .... kinda.
-
-That was a LOT of steps. As is, the system is set up with network connectivity, a non-root user, and access to the AUR for more packages! I've typically stopped here and registered my system to an Ansible inventory for the rest of my configuration. At this time, I've only set installed Arch this way to as nodes for my `k3s` cluster. If this guide helped, fantastic! Good luck with your Arch install. You can upgrade packages and keep up with the rolling releases with the following command:
+As is, the system is set up with network connectivity, a non-root user, and access to the AUR for more packages. I've typically stopped here and registered my system to an Ansible inventory for the rest of my configuration. At this time, I've only set installed Arch this way as nodes for a `k3s` cluster. You can upgrade packages and keep up with the rolling releases with the following command:
 
 ```bash
 sudo pacman -Syyu
