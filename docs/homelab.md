@@ -14,7 +14,7 @@ I am currently managing a Kubernetes cluster here: [GitHub k3s-ansible](https://
 
 | Name            |Role              | OS              | Device                           | Processor        | RAM    | Storage              | Vendor      | Cost       |
 |-----------------|------------------|-----------------|----------------------------------|------------------|--------|----------------------|-------------|------------|
-|zakuii           | Spare            | Kali Linux      | **Lenovo ThinkPad X250**         | Intel i5-5300U   | 8 GB   | 256 GB SSD           | Craigslist  | $80        |
+|zakuii           | Spare            | Arch            | **Lenovo ThinkPad X250**         | Intel i5-5300U   | 8 GB   | 256 GB SSD           | Craigslist  | $80        |
 |newtype-1        | Daily Driver     | CachyOS         | **Lenovo ThinkPad T480**         | Intel i5-8350U   | 32 GB  | 512 GB SSD           | eBay        | $300       |
 |rx78, mkii, zeta | Kubernetes node  | Arch Linux, k3s | **HP EliteDesk 800 G2** (3x)     | Intel i5-6500T   | 16 GB  | 512 GB SSD           | eBay        | $70 ($210) |
 |anaheim          | NAS              | TrueNAS Scale   | **HP Z2 Gen 4 SFF**              | Intel i3-8100    | 16 GB  | 256 GB SSD, 2 TB HDD | Facebook    | $160       |
