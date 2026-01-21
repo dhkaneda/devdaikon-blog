@@ -54,6 +54,10 @@ Paste the following:
 ```ssh
 AddKeysToAgent yes
 
+Host github.com
+  IdentityFile ~/.ssh/github
+  UseKeychain yes  # macOS
+
 Host node-1
   HostName 10.0.0.2
   User username
@@ -75,25 +79,9 @@ Host node-3
 
 > Now you can run `ssh node-1` instead of `ssh username@10.0.0.2`.
 
-### Auto-load SSH key on login
-
-Add this to your `~/.zshrc` (or `~/.bashrc` if using bash) - make sure to replace the key name with your own if it differs:
-
-```bash
-# Start SSH Agent, add key
-if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-  eval "$(ssh-agent -s)"
-  ssh-add ~/.ssh/homelab 2>/dev/null
-fi
-```
-
-Then reload your shell:
-
-```bash
-source ~/.zshrc
-```
-
 ### Test it out
+
+Restart your terminal and try logging into one of your remote hosts:
 
 ```bash
 ssh node-1
