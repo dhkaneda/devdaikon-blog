@@ -12,12 +12,12 @@ I am currently managing a Kubernetes cluster here: [GitHub k3s-ansible](https://
 
 ## Hardware
 
-| Name            |Role              | OS              | Device                           | Processor        | RAM    | Storage              | Vendor      | Cost       |
-|-----------------|------------------|-----------------|----------------------------------|------------------|--------|----------------------|-------------|------------|
-|newtype-2        | Daily Driver     | MacOS Tahoe     | **MacBook Air M4 (2025)**        | Apple M4         | 24 GB  | 512 GB SSD           | Apple       | $1100      |
-|rx78, mkii, zeta | Kubernetes node  | Arch Linux, k3s | **HP EliteDesk 800 G2** (3x)     | Intel i5-6500T   | 16 GB  | 512 GB SSD           | eBay        | $70 ($210) |
-|zz               | GPU Node         | Ubuntu 24.04    | **Custom Built** Details below   | AMD Ryzen 5 5500 | 32 GB  | 256 GB SSD           | Newegg      | $810       |
-|minovsky         | Managed Switch   | RouterOS        | **Mikrotik CRS310-8G+2S+IN**     | 98DX226S         | 256 MB | 32 MB                | Amazon      | $200       |
+| Name            |Role              | OS              | Device                           | Processor        | RAM        | Storage              | Vendor      | Cost       |
+|-----------------|------------------|-----------------|----------------------------------|------------------|------------|----------------------|-------------|------------|
+|newtype-2        | Daily Driver     | MacOS Tahoe     | **MacBook Air M4 (2025)**        | Apple M4         | 24 GB      | 512 GB SSD           | Apple       | $1100      |
+|rx78, mkii, zeta | Kubernetes node  | Arch Linux, k3s | **HP EliteDesk 800 G2** (3x)     | Intel i5-6500T   | 16 GB (48) | 512 GB SSD           | eBay        | $70 ($210) |
+|zz               | GPU Node         | Ubuntu 24.04    | **Custom Built** Details below   | AMD Ryzen 5 5500 | 32 GB      | 256 GB SSD           | Newegg      | $810       |
+|minovsky         | Managed Switch   | RouterOS        | **Mikrotik CRS310-8G+2S+IN**     | 98DX226S         | 256 MB     | 32 MB                | Amazon      | $200       |
 
 <!-- |anaheim          | NAS              | TrueNAS Scale   | **HP Z2 Gen 4 SFF**              | Intel i3-8100    | 16 GB  | 256 GB SSD, 2 TB HDD | Facebook    | $160       | -->
 <!-- |zakuii           | Spare            | Arch            | **Lenovo ThinkPad X250**         | Intel i5-5300U   | 8 GB   | 256 GB SSD           | Craigslist  | $80        | -->
