@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # 🏗️ Homelab
 
-Welcome to my overengineered homelab, centered around running Kubernetes on a cluster of repurposed hardware.
+Welcome to my homelab, centered around running Kubernetes on a cluster of repurposed hardware.
 
 This section is constantly in flux and may be out of date, but I try to keep it updated as much as possible.
 
