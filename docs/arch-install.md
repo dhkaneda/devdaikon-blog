@@ -9,13 +9,13 @@ sidebar_position: 2
 
 ## Why another guide?
 
-The Arch Wiki is famously well-written, and I’ve grown comfortable navigating it after installing Arch many times over the years. But with each installation, I learned something new. Most times that came from making mistakes and troubleshooting. Other times, it came from discovering better configurations, new packages, or improved security practices.
-
-This guide is a culmination of those lessons: what I installed, why I chose it, in what order, and with what configuration. Installing Arch Linux is often described as a “pilgrimage”—and I agree. The process forced me to learn what’s going on under the hood. Or at least enough to hook things up. Primarily, this guide serves as a reference for my future self to save time and avoid past pitfalls.
+The wiki has everything that someone installing Arch Linux needs, but here I am centralizing the most relevant information for my use case and providing a more guided experience. I also want to share some of the pitfalls I ran into during my installation process, and how I solved them.
 
 ## LVM on LUKS
 
-I am particularly interested in using **LVM on LUKS** for my Arch Linux installation. This allows me to encrypt my entire disk while also providing the flexibility of logical volume management. I was also recently made aware of other filesystem options like **Btrfs** and **ZFS**, and I am also very interested in using those in the future. At this time, my focus is on working with Kubernetes and need to get up and running as quickly as possible. I'll be revisiting this guide in the future to explore those options.
+This guide focuses on installing Arch Linux with LVM on LUKS encryption. This setup provides strong security for my data while maintaining flexibility in managing my disk space. By encrypting the entire root partition with LUKS and using LVM on top, I can easily resize volumes, create snapshots, and manage storage without sacrificing security.
+
+Without a keyfile provided via network or removeable media, this setup will require manual password entry at boot to unlock the encrypted root partition.
 
 ---
 
@@ -25,14 +25,14 @@ I am particularly interested in using **LVM on LUKS** for my Arch Linux installa
 
 Pick a USB Drive (8–128 GB):
 
-- Your mileage may vary, but choose a reputable brand for fewer issues and hardware QA variance (SanDisk, Kingston, etc.).
+- Choose a reputable brand for fewer issues and hardware QA variance (SanDisk, Kingston, etc.).
 - Size: At least 4 GB (Arch ISO is ~1 GB).
 
 ### ⚠️ Problem: Larger USB Drives
 
-USB drives larger than 32 GB are quite common these days. I had somehow lost all of my sub-64 GB drives over the years and did not wait to wait for a new one to arrive. I only had a 64 GB drive that I had lying around.
+USB drives larger than 32 GB are quite common these days. I had somehow lost all of my sub-64 GB drives over the years and did not want to wait for a new one to arrive. I only had a 64 GB drive that I had lying around.
 
-I read that it's recommended to use a USB stick 32 GB or smaller because many systems—especially older ones—expect bootable USBs to use the FAT32 file system.
+It's recommended to use a USB stick 32 GB or smaller because many systems especially older ones expect bootable USB drives to use the FAT32 file system.
 
 FAT32 has a maximum volume size of 32 GB (officially on Windows), and larger drives may be formatted as exFAT or NTFS, which are not always bootable or recognized by all firmware.
 
@@ -65,12 +65,12 @@ FAT32 has a maximum volume size of 32 GB (officially on Windows), and larger dri
 
 ### Booting into Ventoy with Arch ISO – Quick Steps
 
-1. **Plug in your Ventoy USB** (with the Arch ISO copied to it).
+1. **Plug in my Ventoy USB** (with the Arch ISO copied to it).
 
 1. **Power on the target computer**, (if it boots into Ventoy, skip to step 4, otherwise reboot) and immediately press the BIOS/boot menu key:  
    - Common keys: `ESC`, `F2`, `F12`,`F10`, or `DEL`, (depends on the manufacturer).  
-   - You may need to **log in to the BIOS** if it's locked.
-   - If you cannot, get into the BIOS, hopefully you can boot into an OS, disable fast boot, and check to make sure your keyboard is detected at startup (don't use dongles or USB extensions).
+   - I may need to **log in to the BIOS** if it's locked.
+   - If I cannot, get into the BIOS, hopefully I can boot into an OS, disable fast boot, and check to make sure my keyboard is detected at startup (don't use dongles or USB extensions).
 
 1. **Enter the Boot Menu** or change **Boot Order** to select your USB drive.
 
@@ -732,6 +732,7 @@ mkinitcpio -P
 You may get warnings for missing firmware. These can be fixed later.
 
 <details>
+
 <summary>mkinitcpio hooks explained</summary>
 
 Your LVM on LUKS setup requires that specific `HOOKS` sequence in `mkinitcpio.conf` to correctly unlock the encrypted drive, activate LVM, and mount your root filesystem during early boot. Here's why each hook matters in your context:
@@ -957,9 +958,7 @@ sudo reflector --latest 10 --sort rate --save /etc/pacman.d/mirrorlist
 
 ## Install `yay`
 
-Install yay, to gain access to packages on the Arch User Repository
-
-https://github.com/Jguer/yay
+Install [yay](<https://github.com/Jguer/yay>), to gain access to packages on the Arch User Repository
 
 If you did not install these packages during the `pacstrap` step, do so now:
 
